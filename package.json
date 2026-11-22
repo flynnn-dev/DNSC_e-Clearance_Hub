@@ -1,0 +1,16 @@
+{
+  "name": "dnsc-e-clearance-hub",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "css:build": "tailwindcss -i ./assets/css/input.css -o ./app/static/css/app.css --minify"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.5",
+    "tailwindcss": "^4.3.5"
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.119.2"
+  }
+}

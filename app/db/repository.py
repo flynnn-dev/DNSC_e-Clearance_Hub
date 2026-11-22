@@ -1,4 +1,4 @@
-"""Open the Supabase database. This module does not create application tables."""
+"""Open the Supabase database. Table creation lives in app.db.migrate."""
 
 from app.db.postgres_repo import ping_postgres
 

@@ -6,3 +6,11 @@ __pycache__/
 instance/
 node_modules/
 *.log
+drop/incoming/*
+!drop/incoming/.gitkeep
+drop/archive/*
+!drop/archive/.gitkeep
+drop/rejected/*
+!drop/rejected/.gitkeep
+drop/logs/*
+!drop/logs/.gitkeep

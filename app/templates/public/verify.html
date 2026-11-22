@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Check a clearance slip · DNSC e-Clearance Hub{% endblock %}
+
+{% block body %}
+  <main id="main" class="mx-auto flex min-h-screen w-full max-w-lg flex-col justify-center px-4 py-10" data-token="{{ token }}">
+    <p class="text-sm text-slate-500">DNSC e-Clearance Hub</p>
+    <h1 class="mt-2 text-3xl font-semibold tracking-tight text-navy-900">Clearance slip</h1>
+    <article class="hero mt-6">
+      <p id="verify-message" class="text-lg font-medium leading-7 text-navy-900">Checking this slip.</p>
+      <p class="mt-4"><span id="verify-badge" class="badge badge-pending">Checking</span></p>
+      <dl class="mt-6 grid gap-4">
+        <div>
+          <dt class="text-sm text-slate-500">Student number</dt>
+          <dd id="verify-number" class="mt-1 text-2xl font-semibold tracking-tight text-navy-900">—</dd>
+        </div>
+        <div>
+          <dt class="text-sm text-slate-500">Expires</dt>
+          <dd id="verify-expiry" class="mt-1 text-sm font-medium text-navy-900">—</dd>
+        </div>
+      </dl>
+    </article>
+    <p class="mt-4 text-sm leading-6 text-slate-600">This page checks the signature and the current clearance. It shows a masked student number.</p>
+  </main>
+  <script src="{{ url_for('static', filename='js/verify-slip.js') }}"></script>
+{% endblock %}

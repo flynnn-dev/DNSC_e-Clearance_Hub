@@ -1,7 +1,6 @@
 # DNSC e-Clearance Hub — Phase 4 Database Design
 
-Status: design awaiting your approval. No application tables have been created.
-The engine is Supabase PostgreSQL. The connection string is not in `.env` yet.
+Status: tables created on Supabase PostgreSQL. Phase 5 has not started.
 
 This design follows [phase-02-architecture.md](phase-02-architecture.md). The Registrar payload, Library XML, and Accounting CSV are still unknown, so source-specific names stay in `source_payload` until those files arrive. The columns below are the Hub's own facts, taken from the project brief.
 
@@ -225,12 +224,10 @@ These names are remapped in Phases 7, 8, and 9 if the samples differ. They are n
 
 `registrar_payload` and `source_payload` keep the original record so a mapping change does not throw data away.
 
-## Connectivity that exists now
+## What was created
 
-`app/db/repository.py` opens a Supabase PostgreSQL connection and runs `SELECT 1`. It does not create the tables in this document. A `sqlite:///` URL is rejected.
+`app/db/schema.sql` is the PostgreSQL definition of these tables. `python -m app.db.migrate` creates them once. A second run reports `already-applied`.
 
-The connection test runs when `DATABASE_URL` in `.env` is a `postgresql://` string. That value is still empty.
+The live database has these 11 empty tables. Constraint tests inserted rows and rolled them back, so no test students remain. A staff user must have an office, a student user must not, email is unique regardless of case, a library row must point at a real import, a `CLEARED` office row must name who signed off, and an accepted manifest id cannot be imported twice.
 
-## Approval needed before any CREATE TABLE
-
-Reply that this design is accepted, or name the tables you want changed. After the Supabase connection string is in `.env`, the next step creates these tables there and tests the foreign keys. Tell your instructor that the project uses Supabase PostgreSQL instead of the brief's SQLite. The Flask design stays the same either way.
+Phase 5, the visual design system, starts when you confirm these tables.

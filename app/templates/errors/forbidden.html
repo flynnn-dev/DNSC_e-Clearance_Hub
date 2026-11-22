@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Not allowed · DNSC e-Clearance Hub{% endblock %}
+
+{% block body %}
+  <main id="main" class="mx-auto flex min-h-screen max-w-lg items-center px-4">
+    <section class="card w-full">
+      <h1 class="text-2xl font-semibold text-navy-900">You cannot open this page</h1>
+      <p class="mt-3 text-sm leading-6 text-slate-600">This account does not have access to that area.</p>
+      <a class="btn btn-primary mt-6" href="{{ url_for('ui.home') }}">Back</a>
+    </section>
+  </main>
+{% endblock %}

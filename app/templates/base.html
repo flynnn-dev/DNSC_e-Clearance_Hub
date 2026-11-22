@@ -3,14 +3,12 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#F4F7FB">
     <title>{% block title %}DNSC e-Clearance Hub{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
   </head>
-  <body class="min-h-screen bg-slate-50 text-slate-900 antialiased">
-    <a
-      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:rounded-md focus:bg-white focus:px-3 focus:py-2"
-      href="#main"
-    >Skip to content</a>
+  <body class="min-h-screen overflow-x-hidden bg-[#F4F7FB] text-slate-700 antialiased">
+    <a class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-navy-900 focus:px-3 focus:py-2 focus:text-white" href="#main">Skip to content</a>
     {% block body %}{% endblock %}
   </body>
 </html>

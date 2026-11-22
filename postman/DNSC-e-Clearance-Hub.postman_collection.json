@@ -1,0 +1,95 @@
+{
+  "info": {
+    "name": "DNSC e-Clearance Hub",
+    "description": "Hub API. Sign in through the login page first, copy the csrf_token hidden field, and send it as X-CSRF-Token on every POST. The collection does not contain passwords.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {"key": "baseUrl", "value": "http://127.0.0.1:5000"},
+    {"key": "csrfToken", "value": ""},
+    {"key": "studentNumber", "value": "2023-24935"},
+    {"key": "slipToken", "value": ""}
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "request": {"method": "GET", "url": "{{baseUrl}}/health"}
+    },
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type", "value": "application/x-www-form-urlencoded"}],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {"key": "email", "value": ""},
+            {"key": "password", "value": ""},
+            {"key": "csrf_token", "value": "{{csrfToken}}"}
+          ]
+        },
+        "url": "{{baseUrl}}/api/auth/login"
+      }
+    },
+    {
+      "name": "Current user",
+      "request": {"method": "GET", "url": "{{baseUrl}}/api/auth/me"}
+    },
+    {
+      "name": "Student clearance",
+      "request": {"method": "GET", "url": "{{baseUrl}}/api/me/clearance"}
+    },
+    {
+      "name": "Issue slip",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "X-CSRF-Token", "value": "{{csrfToken}}"}],
+        "url": "{{baseUrl}}/api/me/slip"
+      }
+    },
+    {
+      "name": "Verify slip",
+      "request": {"method": "GET", "url": "{{baseUrl}}/api/verify/{{slipToken}}"}
+    },
+    {
+      "name": "Staff queue",
+      "request": {"method": "GET", "url": "{{baseUrl}}/api/staff/clearance"}
+    },
+    {
+      "name": "Place hold",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "Content-Type", "value": "application/json"},
+          {"key": "X-CSRF-Token", "value": "{{csrfToken}}"}
+        ],
+        "body": {"mode": "raw", "raw": "{\"reason\": \"Missing book\"}"},
+        "url": "{{baseUrl}}/api/staff/clearance/{{studentNumber}}/hold"
+      }
+    },
+    {
+      "name": "Sign off",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "X-CSRF-Token", "value": "{{csrfToken}}"}],
+        "url": "{{baseUrl}}/api/staff/clearance/{{studentNumber}}/signoff"
+      }
+    },
+    {
+      "name": "Office report JSON",
+      "request": {"method": "GET", "url": "{{baseUrl}}/api/office/reports.json"}
+    },
+    {
+      "name": "Office report CSV",
+      "request": {"method": "GET", "url": "{{baseUrl}}/api/office/reports.csv"}
+    },
+    {
+      "name": "Logout",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "X-CSRF-Token", "value": "{{csrfToken}}"}],
+        "url": "{{baseUrl}}/api/auth/logout"
+      }
+    }
+  ]
+}

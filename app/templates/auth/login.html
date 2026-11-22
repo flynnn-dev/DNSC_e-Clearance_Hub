@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% from "partials/icons.html" import icon %}
+
+{% block title %}Sign in · DNSC e-Clearance Hub{% endblock %}
+
+{% block body %}
+  <main id="main" class="grid min-h-screen lg:grid-cols-[minmax(0,1fr)_minmax(22rem,32rem)]">
+    <section class="hidden bg-navy-900 px-12 py-16 text-white lg:flex lg:flex-col lg:justify-between">
+      <p class="text-sm text-slate-300">Davao del Norte State College</p>
+      <div>
+        <p class="max-w-md text-4xl font-semibold tracking-tight">DNSC e-Clearance Hub</p>
+        <p class="mt-4 max-w-md text-base leading-7 text-slate-200">See your library and accounting clearance in one place.</p>
+      </div>
+      <p class="text-sm text-slate-300">Students and staff sign in with the account issued for this Hub.</p>
+    </section>
+
+    <section class="flex items-center justify-center px-4 py-10">
+      <div class="w-full max-w-md">
+        <p class="text-sm text-slate-500 lg:hidden">Davao del Norte State College</p>
+        <h1 class="mt-2 text-3xl font-semibold tracking-tight text-navy-900 lg:mt-0">Sign in</h1>
+        <p class="mt-2 text-sm leading-6 text-slate-600">Use your Hub email and password.</p>
+
+        {% if notice %}
+          <p class="mt-4 rounded-lg border border-amber-200 bg-amber-50 px-3 py-3 text-sm text-amber-900" role="alert">{{ notice }}</p>
+        {% endif %}
+
+        <form class="mt-6 space-y-4" method="post" action="{{ url_for('auth.login') }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+          <div class="field">
+            <label class="label" for="email">Email</label>
+            <input class="input" id="email" name="email" type="email" autocomplete="username" required value="{{ email or '' }}">
+          </div>
+          <div class="field">
+            <label class="label" for="password">Password</label>
+            <input class="input" id="password" name="password" type="password" autocomplete="current-password" required>
+          </div>
+          <button class="btn btn-primary w-full" type="submit">
+            {{ icon("login") }}
+            Sign in
+          </button>
+        </form>
+      </div>
+    </section>
+  </main>
+{% endblock %}

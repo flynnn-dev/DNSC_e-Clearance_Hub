@@ -23,11 +23,18 @@ def test_health_returns_ok(client):
 
 
 def test_home_page_names_the_hub(client):
-    response = client.get("/")
+    response = client.get("/login")
     assert response.status_code == 200
     page = response.get_data(as_text=True)
     assert "DNSC e-Clearance Hub" in page
     assert "css/app.css" in page
+    assert 'for="email"' in page
+    assert 'for="password"' in page
+
+
+def test_dashboards_require_sign_in(client):
+    assert client.get("/student", follow_redirects=False).status_code == 302
+    assert client.get("/staff", follow_redirects=False).status_code == 302
 
 
 def test_missing_secret_key_stops_startup(monkeypatch):

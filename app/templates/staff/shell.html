@@ -1,0 +1,18 @@
+{% extends "layouts/dashboard.html" %}
+{% from "partials/icons.html" import icon %}
+
+{% block navigation %}
+  <a class="nav-link" href="{{ url_for('ui.staff_dashboard') }}" {% if request.endpoint == "ui.staff_dashboard" %}aria-current="page"{% endif %}>{{ icon("dashboard") }} Dashboard</a>
+  <a class="nav-link" href="{{ url_for('ui.staff_students') }}" {% if request.endpoint == "ui.staff_students" %}aria-current="page"{% endif %}>{{ icon("users") }} Students</a>
+  <a class="nav-link" href="{{ url_for('ui.staff_documents') }}" {% if request.endpoint == "ui.staff_documents" %}aria-current="page"{% endif %}>{{ icon("file") }} Documents</a>
+{% endblock %}
+
+{% block mobile_navigation %}
+  <a class="tab-link" href="{{ url_for('ui.staff_dashboard') }}" {% if request.endpoint == "ui.staff_dashboard" %}aria-current="page"{% endif %}>{{ icon("home", "h-5 w-5") }} Home</a>
+  <a class="tab-link" href="{{ url_for('ui.staff_students') }}" {% if request.endpoint == "ui.staff_students" %}aria-current="page"{% endif %}>{{ icon("users", "h-5 w-5") }} Students</a>
+  <a class="tab-link" href="{{ url_for('ui.staff_documents') }}" {% if request.endpoint == "ui.staff_documents" %}aria-current="page"{% endif %}>{{ icon("file", "h-5 w-5") }} Docs</a>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/staff-clearance.js') }}"></script>
+{% endblock %}

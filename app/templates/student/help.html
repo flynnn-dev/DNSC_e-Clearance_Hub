@@ -1,0 +1,30 @@
+{% extends "student/shell.html" %}
+
+{% block title %}Help and support · DNSC e-Clearance Hub{% endblock %}
+
+{% block content %}
+  <section class="card">
+    <h1 class="text-2xl font-semibold tracking-tight text-green-900">Help &amp; Support</h1>
+    <p class="mt-2 text-sm leading-6 text-slate-600">Accounts are issued by the college. Ask your office if a login needs to be linked or a password needs to be reset.</p>
+    <p id="clearance-alert" class="mt-4 hidden rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900" role="status"></p>
+    <h2 class="mt-6 text-base font-semibold text-green-900">Profile</h2>
+    <dl class="mt-4 grid gap-4 sm:grid-cols-2">
+      <div>
+        <dt class="text-sm text-slate-500">Account email</dt>
+        <dd class="mt-1 text-sm font-medium text-green-900">{{ current_user.email }}</dd>
+      </div>
+      <div>
+        <dt class="text-sm text-slate-500">Student number</dt>
+        <dd id="profile-number" class="mt-1 text-sm font-medium text-green-900">Not linked yet</dd>
+      </div>
+      <div>
+        <dt class="text-sm text-slate-500">Name</dt>
+        <dd id="profile-name" class="mt-1 text-sm font-medium text-green-900">Not linked yet</dd>
+      </div>
+      <div>
+        <dt class="text-sm text-slate-500">Program</dt>
+        <dd id="profile-program" class="mt-1 text-sm font-medium text-green-900">Not linked yet</dd>
+      </div>
+    </dl>
+  </section>
+{% endblock %}

@@ -3,15 +3,15 @@
 
 @layer components {
   .btn {
-    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-900 focus-visible:ring-offset-2 focus-visible:ring-offset-[#F4F7FB] disabled:cursor-not-allowed disabled:opacity-60;
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-700 focus-visible:ring-offset-2 focus-visible:ring-offset-[#F4F7FB] disabled:cursor-not-allowed disabled:opacity-60;
   }
 
   .btn-primary {
-    @apply bg-navy-900 text-white hover:bg-navy-800;
+    @apply bg-green-700 text-white hover:bg-green-800;
   }
 
   .btn-secondary {
-    @apply border border-slate-300 bg-white text-navy-900 hover:bg-slate-50;
+    @apply border border-slate-300 bg-white text-green-900 hover:bg-slate-50;
   }
 
   .field {
@@ -19,43 +19,43 @@
   }
 
   .label {
-    @apply text-sm font-medium text-navy-900;
+    @apply text-sm font-medium text-green-900;
   }
 
   .input {
-    @apply min-h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-base text-navy-900 placeholder:text-slate-400 focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20;
+    @apply min-h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-base text-green-900 placeholder:text-slate-400 focus:border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700/20;
   }
 
   .card {
-    @apply rounded-xl border border-slate-200 bg-white p-5 text-slate-700 shadow-sm;
+    @apply rounded-2xl border border-slate-200 bg-white p-5 text-slate-700 shadow-sm;
   }
 
   .hero {
-    @apply rounded-xl border border-slate-200 border-t-4 border-t-navy-900 bg-white p-6 text-slate-700 shadow-sm sm:p-8;
+    @apply rounded-2xl border border-slate-200 border-t-4 border-t-green-700 bg-white p-6 text-slate-700 shadow-sm sm:p-8;
   }
 
   .chip {
-    @apply inline-flex min-h-11 items-center rounded-full border border-slate-300 bg-white px-4 text-sm font-medium text-navy-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-900;
+    @apply inline-flex min-h-11 items-center rounded-full border border-slate-300 bg-white px-4 text-sm font-medium text-green-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-700;
   }
 
   .chip.is-selected {
-    @apply border-navy-900 bg-navy-900 text-white;
+    @apply border-green-700 bg-green-700 text-white;
   }
 
   .badge {
-    @apply inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-medium;
+    @apply inline-flex items-center rounded-full border border-transparent px-2.5 py-1 text-xs font-medium;
   }
 
   .badge-hold {
-    @apply border-amber-300 bg-amber-50 text-amber-800;
+    @apply bg-amber-100 text-amber-700;
   }
 
   .badge-cleared {
-    @apply border-emerald-300 bg-emerald-50 text-emerald-800;
+    @apply bg-green-100 text-green-700;
   }
 
   .badge-pending {
-    @apply border-slate-300 bg-slate-100 text-slate-700;
+    @apply bg-slate-100 text-slate-600;
   }
 
   .table-wrap {
@@ -88,7 +88,7 @@
   }
 
   .data-table .cell-id {
-    @apply font-medium text-navy-900;
+    @apply font-medium text-green-900;
   }
 
   .data-table .cell-reason {
@@ -104,15 +104,37 @@
   }
 
   .nav-link {
-    @apply flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm text-slate-300 hover:bg-navy-800 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white;
+    @apply flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm text-white/75 hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white;
   }
 
   .nav-link[aria-current="page"] {
-    @apply bg-navy-800 text-white;
+    @apply bg-green-700 text-white;
+  }
+
+  .tab-link {
+    @apply flex min-h-14 flex-col items-center justify-center gap-1 px-1 text-[11px] font-medium text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-700;
+  }
+
+  .tab-link[aria-current="page"] {
+    @apply text-green-700;
+  }
+
+  .banner {
+    @apply relative mt-6 overflow-hidden rounded-2xl text-white shadow-sm;
+    background-image: linear-gradient(105deg, #071f18 0%, #0a2f24 28%, #0e3b2e 52%, #1b6b45 78%, #3d9a62 100%);
+  }
+
+  .banner::after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(90deg, transparent 0%, transparent 46%, rgb(255 255 255 / 0.08) 72%, rgb(255 255 255 / 0.16) 100%);
   }
 
   .sidebar {
-    @apply fixed top-0 left-0 z-40 flex h-screen w-64 -translate-x-full flex-col overflow-y-auto border-r border-white/10 bg-navy-950 text-white transition-transform md:sticky md:self-start md:translate-x-0;
+    @apply fixed top-0 left-0 z-40 flex h-screen w-60 -translate-x-full flex-col overflow-y-auto text-white transition-transform md:sticky md:self-start md:translate-x-0;
+    background-image: linear-gradient(180deg, #1b6b45 0%, #0e3b2e 42%, #0a2f24 100%);
   }
 
   .sidebar.is-open {

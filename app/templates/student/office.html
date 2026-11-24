@@ -1,0 +1,14 @@
+{% extends "student/shell.html" %}
+
+{% block title %}{{ office|capitalize }} · DNSC e-Clearance Hub{% endblock %}
+
+{% block content %}
+  <p class="text-sm"><a class="font-medium text-green-700 hover:underline" href="{{ url_for('ui.student_clearance') }}">My Clearance</a></p>
+  <article id="office-detail" class="card mt-4" data-office="{{ office }}">
+    <h1 id="office-title" class="text-2xl font-semibold tracking-tight text-green-900">Loading office</h1>
+    <p class="mt-4"><span id="office-badge" class="badge badge-pending">Loading</span></p>
+    <p id="office-reason" class="mt-4 text-sm leading-6 text-slate-600"></p>
+    <ul id="office-records" class="mt-4 list-disc space-y-2 pl-5 text-sm text-slate-700"></ul>
+  </article>
+  <p id="clearance-alert" class="mt-4 hidden rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900" role="status"></p>
+{% endblock %}

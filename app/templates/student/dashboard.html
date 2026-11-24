@@ -1,100 +1,54 @@
-{% extends "layouts/dashboard.html" %}
-{% from "partials/icons.html" import icon %}
+{% extends "student/shell.html" %}
+{% from "partials/icons.html" import icon, seal %}
 
 {% block title %}Student clearance · DNSC e-Clearance Hub{% endblock %}
-{% block section_label %}Student{% endblock %}
-
-{% block navigation %}
-  <a class="nav-link" href="#overview">{{ icon("dashboard") }} Overview</a>
-  <a class="nav-link" href="#profile">{{ icon("user") }} Profile</a>
-  <a class="nav-link" href="#history">{{ icon("history") }} History</a>
-  <a class="nav-link" href="#slip">{{ icon("file") }} Clearance slip</a>
-{% endblock %}
 
 {% block content %}
-  <h1 class="text-3xl font-semibold tracking-tight text-navy-900">Clearance</h1>
-  <p id="clearance-alert" class="mt-4 hidden rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900" role="status"></p>
+  <section id="overview" class="scroll-mt-20">
+    <h1 id="greeting" class="text-2xl font-semibold tracking-tight text-green-900 sm:text-3xl">Good day!</h1>
+    <p class="mt-1 text-sm text-slate-600">Track your clearance status and complete your requirements here.</p>
+    <p id="clearance-alert" class="mt-4 hidden rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900" role="status"></p>
+    <p id="link-note" class="mt-4 hidden rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900" role="status"></p>
 
-  <section id="overview" class="mt-6">
-    <article class="hero">
-      <div class="flex flex-wrap items-center justify-between gap-3">
-        <h2 class="text-base font-semibold text-navy-900">Overall</h2>
-        <span id="overall-badge" class="badge badge-pending">Loading</span>
+    <article class="banner">
+      <div class="relative z-10 flex items-center gap-4 p-6 sm:p-7">
+        <span class="rounded-full bg-white p-1 shadow-sm">{{ seal("h-16 w-16") }}</span>
+        <div>
+          <h2 class="text-xl font-semibold tracking-tight sm:text-2xl">DNSC e-Clearance Hub</h2>
+          <p class="mt-1 max-w-xl text-sm leading-6 text-white/85">A centralized and digital clearance system for Davao del Norte State College students.</p>
+        </div>
       </div>
-      <p id="overall-title" class="mt-5 text-4xl font-semibold tracking-tight text-navy-900">Loading clearance</p>
-      <p id="overall-copy" class="mt-3 max-w-2xl text-sm leading-6 text-slate-600">Library and Accounting status will appear here.</p>
-      <p id="clearance-deadline" class="mt-3 text-sm font-medium text-navy-900">Clearance deadline: loading</p>
     </article>
-    <div class="mt-4 grid gap-4 sm:grid-cols-2">
-      <article class="card">
-        <h2 class="text-base font-semibold text-navy-900">Library</h2>
-        <p class="mt-4"><span id="library-badge" class="badge badge-pending">Loading</span></p>
-        <p id="library-copy" class="mt-3 text-sm leading-6 text-slate-600">Unreturned books and unpaid fines appear here with the hold reason.</p>
-      </article>
-      <article class="card">
-        <h2 class="text-base font-semibold text-navy-900">Accounting</h2>
-        <p class="mt-4"><span id="accounting-badge" class="badge badge-pending">Loading</span></p>
-        <p id="accounting-copy" class="mt-3 text-sm leading-6 text-slate-600">Tuition and other balances appear here with the hold reason.</p>
-      </article>
+
+    <div class="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <a class="card flex items-center gap-3" href="{{ url_for('ui.student_clearance') }}">
+        <span class="flex h-10 w-10 items-center justify-center rounded-full bg-green-100 text-green-700">{{ icon("check") }}</span>
+        <div>
+          <p class="text-xs text-slate-500">Cleared Offices</p>
+          <p id="stat-cleared" class="text-lg font-semibold text-green-900">—</p>
+        </div>
+      </a>
+      <a class="card flex items-center gap-3" href="{{ url_for('ui.student_clearance') }}">
+        <span class="flex h-10 w-10 items-center justify-center rounded-full bg-amber-100 text-amber-700">{{ icon("clock") }}</span>
+        <div>
+          <p class="text-xs text-slate-500">On Hold</p>
+          <p id="stat-hold" class="text-lg font-semibold text-green-900">—</p>
+        </div>
+      </a>
+      <a class="card flex items-center gap-3" href="{{ url_for('ui.student_documents') }}">
+        <span class="flex h-10 w-10 items-center justify-center rounded-full bg-sky-100 text-sky-700">{{ icon("list") }}</span>
+        <div>
+          <p class="text-xs text-slate-500">Requirements</p>
+          <p id="stat-requirements" class="text-lg font-semibold text-green-900">—</p>
+        </div>
+      </a>
+      <a class="card flex items-center gap-3" href="{{ url_for('ui.student_announcements') }}">
+        <span class="flex h-10 w-10 items-center justify-center rounded-full bg-violet-100 text-violet-700">{{ icon("calendar") }}</span>
+        <div>
+          <p class="text-xs text-slate-500">Est. Completion</p>
+          <p id="stat-completion" class="text-lg font-semibold text-green-900">—</p>
+        </div>
+      </a>
     </div>
   </section>
-
-  <section id="profile" class="card mt-4">
-    <h2 class="text-lg font-semibold text-navy-900">Profile</h2>
-    <dl class="mt-4 grid gap-4 sm:grid-cols-2">
-      <div>
-        <dt class="text-sm text-slate-500">Account email</dt>
-        <dd class="mt-1 text-sm font-medium text-navy-900">{{ current_user.email }}</dd>
-      </div>
-      <div>
-        <dt class="text-sm text-slate-500">Student number</dt>
-        <dd id="profile-number" class="mt-1 text-sm font-medium text-navy-900">Not linked yet</dd>
-      </div>
-      <div>
-        <dt class="text-sm text-slate-500">Name</dt>
-        <dd id="profile-name" class="mt-1 text-sm font-medium text-navy-900">Not linked yet</dd>
-      </div>
-      <div>
-        <dt class="text-sm text-slate-500">Program</dt>
-        <dd id="profile-program" class="mt-1 text-sm font-medium text-navy-900">Not linked yet</dd>
-      </div>
-    </dl>
-  </section>
-
-  <section id="history" class="card mt-4">
-    <h2 class="text-lg font-semibold text-navy-900">History</h2>
-    <div class="table-wrap mt-4">
-      <table class="data-table">
-        <caption class="sr-only">Clearance history</caption>
-        <thead>
-          <tr>
-            <th scope="col">Date</th>
-            <th scope="col">Office</th>
-            <th scope="col">Action</th>
-            <th scope="col">Reason</th>
-          </tr>
-        </thead>
-        <tbody id="history-body">
-          <tr>
-            <td colspan="4">No clearance history yet.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <section id="slip" class="card mt-4">
-    <h2 class="text-lg font-semibold text-navy-900">Clearance slip</h2>
-    <p id="slip-copy" class="mt-2 text-sm leading-6 text-slate-600">A signed slip can be issued when Library and Accounting are both cleared.</p>
-    <button id="issue-slip" class="btn btn-primary mt-4" type="button" disabled>Issue slip</button>
-    <div id="slip-result" class="mt-4 hidden">
-      <div id="slip-qr" class="w-40 max-w-full rounded-xl border border-slate-200 bg-white p-3"></div>
-      <p id="slip-expiry" class="mt-3 text-sm text-slate-600"></p>
-      <a id="slip-link" class="mt-3 inline-flex min-h-11 items-center text-sm font-medium text-navy-900 underline" href="#slip">Open the verification page</a>
-    </div>
-  </section>
-{% endblock %}
-
-{% block scripts %}
-  <script src="{{ url_for('static', filename='js/student-clearance.js') }}"></script>
 {% endblock %}

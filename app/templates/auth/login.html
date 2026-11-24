@@ -1,45 +1,59 @@
 {% extends "base.html" %}
-{% from "partials/icons.html" import icon %}
+{% from "partials/icons.html" import icon, seal %}
 
 {% block title %}Sign in · DNSC e-Clearance Hub{% endblock %}
 
 {% block body %}
-  <main id="main" class="grid min-h-screen lg:grid-cols-[minmax(0,1fr)_minmax(22rem,32rem)]">
-    <section class="hidden bg-navy-900 px-12 py-16 text-white lg:flex lg:flex-col lg:justify-between">
-      <p class="text-sm text-slate-300">Davao del Norte State College</p>
-      <div>
-        <p class="max-w-md text-4xl font-semibold tracking-tight">DNSC e-Clearance Hub</p>
-        <p class="mt-4 max-w-md text-base leading-7 text-slate-200">See your library and accounting clearance in one place.</p>
+  <main id="main" class="relative grid min-h-screen place-items-center overflow-x-hidden overflow-y-auto px-4 py-10" style="background-image: linear-gradient(145deg, #ffffff 0%, #e7f5ec 28%, #1b6b45 28.2%, #0e3b2e 62%, #145536 100%);">
+    <div class="pointer-events-none absolute -left-16 top-0 h-full w-1/2 -skew-x-12 bg-white" aria-hidden="true"></div>
+    <div class="pointer-events-none absolute right-0 bottom-0 h-1/2 w-1/3 skew-x-12 bg-green-700/40" aria-hidden="true"></div>
+    <section class="relative w-full max-w-md rounded-3xl bg-white p-8 shadow-xl">
+      <div class="flex flex-col items-center text-center">
+        {{ seal("h-20 w-20") }}
+        <p class="mt-4 text-sm text-slate-500">Davao del Norte State College</p>
+        <h1 class="mt-1 text-2xl font-semibold tracking-tight text-green-900">DNSC e-Clearance Hub</h1>
+        <p class="mt-1 text-sm text-slate-600">Sign in to your account</p>
       </div>
-      <p class="text-sm text-slate-300">Students and staff sign in with the account issued for this Hub.</p>
-    </section>
 
-    <section class="flex items-center justify-center px-4 py-10">
-      <div class="w-full max-w-md">
-        <p class="text-sm text-slate-500 lg:hidden">Davao del Norte State College</p>
-        <h1 class="mt-2 text-3xl font-semibold tracking-tight text-navy-900 lg:mt-0">Sign in</h1>
-        <p class="mt-2 text-sm leading-6 text-slate-600">Use your Hub email and password.</p>
+      {% if notice %}
+        <p class="mt-4 rounded-lg border border-amber-200 bg-amber-50 px-3 py-3 text-sm text-amber-900" role="alert">{{ notice }}</p>
+      {% endif %}
 
-        {% if notice %}
-          <p class="mt-4 rounded-lg border border-amber-200 bg-amber-50 px-3 py-3 text-sm text-amber-900" role="alert">{{ notice }}</p>
-        {% endif %}
-
-        <form class="mt-6 space-y-4" method="post" action="{{ url_for('auth.login') }}">
-          <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-          <div class="field">
-            <label class="label" for="email">Email</label>
-            <input class="input" id="email" name="email" type="email" autocomplete="username" required value="{{ email or '' }}">
+      <form class="mt-6 space-y-4" method="post" action="{{ url_for('auth.login') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <div class="field">
+          <label class="label" for="email">Email</label>
+          <div class="relative">
+            <span class="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-slate-400">{{ icon("mail", "h-4 w-4") }}</span>
+            <input class="input pl-10" id="email" name="email" type="email" autocomplete="username" required value="{{ email or '' }}">
           </div>
-          <div class="field">
-            <label class="label" for="password">Password</label>
-            <input class="input" id="password" name="password" type="password" autocomplete="current-password" required>
+        </div>
+        <div class="field">
+          <label class="label" for="password">Password</label>
+          <div class="relative">
+            <span class="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-slate-400">{{ icon("lock", "h-4 w-4") }}</span>
+            <input class="input px-10" id="password" name="password" type="password" autocomplete="current-password" required>
+            <button class="absolute top-1/2 right-2 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-md text-slate-500 hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-700" type="button" id="toggle-password" aria-label="Show password" aria-pressed="false">
+              <span id="eye-open">{{ icon("eye", "h-4 w-4") }}</span>
+              <span id="eye-closed" class="hidden">{{ icon("eye-off", "h-4 w-4") }}</span>
+            </button>
           </div>
-          <button class="btn btn-primary w-full" type="submit">
-            {{ icon("login") }}
-            Sign in
-          </button>
-        </form>
-      </div>
+        </div>
+        <button class="btn btn-primary w-full" type="submit">Sign in</button>
+      </form>
+      <p class="mt-4 text-center text-sm leading-6 text-green-800">Accounts are issued by the college. Ask your office if you need a password reset.</p>
     </section>
   </main>
+  <script>
+    const password = document.getElementById("password");
+    const toggle = document.getElementById("toggle-password");
+    toggle?.addEventListener("click", () => {
+      const showing = password.type === "text";
+      password.type = showing ? "password" : "text";
+      toggle.setAttribute("aria-pressed", String(!showing));
+      toggle.setAttribute("aria-label", showing ? "Show password" : "Hide password");
+      document.getElementById("eye-open")?.classList.toggle("hidden", !showing);
+      document.getElementById("eye-closed")?.classList.toggle("hidden", showing);
+    });
+  </script>
 {% endblock %}

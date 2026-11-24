@@ -30,7 +30,9 @@ window.addEventListener("resize", () => {
   }
 });
 
-const navLinks = [...document.querySelectorAll(".nav-link")];
+const navLinks = [...document.querySelectorAll(".nav-link, .tab-link")].filter((link) =>
+  (link.getAttribute("href") || "").startsWith("#"),
+);
 const navSections = navLinks
   .map((link) => document.querySelector(link.getAttribute("href")))
   .filter((section) => section instanceof HTMLElement);

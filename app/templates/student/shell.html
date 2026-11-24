@@ -1,0 +1,23 @@
+{% extends "layouts/dashboard.html" %}
+{% from "partials/icons.html" import icon %}
+
+{% set clearance_pages = ["ui.student_clearance", "ui.student_office"] %}
+
+{% block navigation %}
+  <a class="nav-link" href="{{ url_for('ui.student_dashboard') }}" {% if request.endpoint == "ui.student_dashboard" %}aria-current="page"{% endif %}>{{ icon("dashboard") }} Dashboard</a>
+  <a class="nav-link" href="{{ url_for('ui.student_clearance') }}" {% if request.endpoint in clearance_pages %}aria-current="page"{% endif %}>{{ icon("clipboard") }} My Clearance</a>
+  <a class="nav-link" href="{{ url_for('ui.student_documents') }}" {% if request.endpoint == "ui.student_documents" %}aria-current="page"{% endif %}>{{ icon("file") }} Documents</a>
+  <a class="nav-link" href="{{ url_for('ui.student_announcements') }}" {% if request.endpoint == "ui.student_announcements" %}aria-current="page"{% endif %}>{{ icon("megaphone") }} Announcements</a>
+  <a class="nav-link" href="{{ url_for('ui.student_help') }}" {% if request.endpoint == "ui.student_help" %}aria-current="page"{% endif %}>{{ icon("user") }} Help &amp; Support</a>
+{% endblock %}
+
+{% block mobile_navigation %}
+  <a class="tab-link" href="{{ url_for('ui.student_dashboard') }}" {% if request.endpoint == "ui.student_dashboard" %}aria-current="page"{% endif %}>{{ icon("home", "h-5 w-5") }} Home</a>
+  <a class="tab-link" href="{{ url_for('ui.student_clearance') }}" {% if request.endpoint in clearance_pages %}aria-current="page"{% endif %}>{{ icon("clipboard", "h-5 w-5") }} Clearance</a>
+  <a class="tab-link" href="{{ url_for('ui.student_documents') }}" {% if request.endpoint == "ui.student_documents" %}aria-current="page"{% endif %}>{{ icon("file", "h-5 w-5") }} Docs</a>
+  <a class="tab-link" href="{{ url_for('ui.student_help') }}" {% if request.endpoint == "ui.student_help" %}aria-current="page"{% endif %}>{{ icon("menu", "h-5 w-5") }} More</a>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/student-clearance.js') }}"></script>
+{% endblock %}

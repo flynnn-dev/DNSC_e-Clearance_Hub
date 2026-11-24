@@ -38,10 +38,18 @@ function cell(value, className) {
   return element;
 }
 
+function setCount(id, value) {
+  const element = document.getElementById(id);
+  if (element) {
+    element.textContent = value;
+  }
+}
+
 function render(payload) {
-  document.getElementById("count-hold").textContent = payload.counts.HOLD ?? 0;
-  document.getElementById("count-pending").textContent = payload.counts.PENDING ?? 0;
-  document.getElementById("count-cleared").textContent = payload.counts.CLEARED ?? 0;
+  const counts = payload.counts || {};
+  setCount("count-hold", counts.HOLD ?? 0);
+  setCount("count-pending", counts.PENDING ?? 0);
+  setCount("count-cleared", counts.CLEARED ?? 0);
   officeStudents = payload.students || [];
   drawRows();
 }
@@ -82,6 +90,9 @@ function drawRows() {
   const start = (page - 1) * pageSize;
   const visible = students.slice(start, start + pageSize);
   const body = document.getElementById("student-body");
+  if (!body) {
+    return;
+  }
   body.replaceChildren();
   updatePager(students.length, start, visible.length);
   if (!visible.length) {
@@ -123,6 +134,9 @@ function drawRows() {
 }
 
 function openHold(student) {
+  if (!dialog || !studentField || !studentLabel || !reasonField || !holdError) {
+    return;
+  }
   studentField.value = student.student_number;
   studentLabel.textContent = `${student.display_name} (${student.student_number}). This hold applies only to your office.`;
   reasonField.value = "";
@@ -181,6 +195,13 @@ document.getElementById("student-search")?.addEventListener("input", () => {
   page = 1;
   drawRows();
 });
+const initialStatus = new URLSearchParams(window.location.search).get("status");
+if (initialStatus && ["all", "HOLD", "PENDING", "CLEARED"].includes(initialStatus)) {
+  statusFilter = initialStatus;
+  document.querySelectorAll("[data-status-filter]").forEach((item) => {
+    item.classList.toggle("is-selected", item.dataset.statusFilter === statusFilter);
+  });
+}
 document.querySelectorAll("[data-status-filter]").forEach((chip) => {
   chip.addEventListener("click", () => {
     statusFilter = chip.dataset.statusFilter || "all";
@@ -188,6 +209,13 @@ document.querySelectorAll("[data-status-filter]").forEach((chip) => {
     document.querySelectorAll("[data-status-filter]").forEach((item) => {
       item.classList.toggle("is-selected", item === chip);
     });
+    const next = new URL(window.location.href);
+    if (statusFilter === "all") {
+      next.searchParams.delete("status");
+    } else {
+      next.searchParams.set("status", statusFilter);
+    }
+    window.history.replaceState({}, "", next);
     drawRows();
   });
 });
@@ -202,4 +230,6 @@ document.getElementById("student-page-next")?.addEventListener("click", () => {
   drawRows();
 });
 
-loadQueue().catch((error) => showAlert(error.message));
+if (document.getElementById("count-hold") || document.getElementById("student-body")) {
+  loadQueue().catch((error) => showAlert(error.message));
+}

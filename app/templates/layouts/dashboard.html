@@ -1,41 +1,80 @@
 {% extends "base.html" %}
-{% from "partials/icons.html" import icon %}
+{% from "partials/icons.html" import icon, seal %}
 
 {% block body %}
-  <div class="min-h-screen md:grid md:grid-cols-[16rem_minmax(0,1fr)]">
-    <div id="nav-backdrop" class="fixed inset-0 z-30 hidden bg-navy-950/40 md:hidden"></div>
+  {% set email_name = current_user.email.split("@")[0] %}
+  {% set initial = email_name[:1]|upper %}
+  {% if current_user.role == "staff" %}
+    {% set role_label = (current_user.office or "office")|capitalize ~ " staff" %}
+  {% else %}
+    {% set role_label = "Student" %}
+  {% endif %}
+  <div class="min-h-screen md:grid md:grid-cols-[15rem_minmax(0,1fr)]">
+    <div id="nav-backdrop" class="fixed inset-0 z-30 hidden bg-green-950/40 md:hidden"></div>
     <aside id="sidebar" class="sidebar" aria-label="Primary">
-      <div class="flex h-16 items-center justify-between px-5">
-        <a class="text-sm font-semibold tracking-wide text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white" href="{{ request.path }}">DNSC e-Clearance</a>
-        <button class="inline-flex h-11 w-11 items-center justify-center rounded-lg text-white hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white md:hidden" type="button" data-close-nav aria-label="Close menu">
+      <div class="relative flex justify-center px-4 pt-6 pb-4">
+        <a class="flex flex-col items-center gap-3 text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white" href="{{ request.path }}">
+          {{ seal("h-20 w-20") }}
+          <span class="leading-tight">
+            <span class="block text-base font-semibold text-white">DNSC</span>
+            <span class="block text-sm text-white/80">e-Clearance Hub</span>
+          </span>
+        </a>
+        <button class="absolute top-2 right-2 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-white hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white md:hidden" type="button" data-close-nav aria-label="Close menu">
           {{ icon("close") }}
         </button>
       </div>
-      <p class="px-5 pb-3 text-sm text-slate-400">{% block section_label %}{% endblock %}</p>
       <nav class="flex flex-1 flex-col gap-1 px-3">
         {% block navigation %}{% endblock %}
       </nav>
-      <div class="border-t border-white/10 p-3">
-        <p class="truncate px-2 text-xs text-slate-300">{{ current_user.email }}</p>
-        <form method="post" action="{{ url_for('auth.logout') }}">
+      <details class="border-t border-white/10 p-3">
+        <summary class="flex cursor-pointer list-none items-center gap-3 rounded-lg px-2 py-2 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
+          <span id="shell-avatar" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/15 text-sm font-semibold" aria-hidden="true">{{ initial }}</span>
+          <span class="min-w-0 flex-1">
+            <span id="shell-display-name" class="block truncate text-sm font-medium text-white">{{ email_name }}</span>
+            <span class="block text-xs text-white/70">{{ role_label }}</span>
+          </span>
+          {{ icon("chevron", "h-4 w-4 shrink-0 text-white/70") }}
+        </summary>
+        <form class="px-2 pt-3" method="post" action="{{ url_for('auth.logout') }}">
           <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-          <button class="btn btn-secondary mt-3 w-full" type="submit">Log out</button>
+          <button class="btn btn-secondary w-full" type="submit">Log out</button>
         </form>
-      </div>
+      </details>
     </aside>
 
-    <div class="min-w-0">
-      <header class="sticky top-0 z-20 flex h-14 items-center gap-3 border-b border-slate-200 bg-white px-4 md:hidden">
-        <button class="inline-flex h-11 w-11 items-center justify-center rounded-lg text-navy-900 hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-900" type="button" data-open-nav aria-controls="sidebar" aria-expanded="false" aria-label="Open menu">
+    <div class="min-w-0 pb-20 md:pb-0">
+      <header class="sticky top-0 z-20 flex h-16 items-center gap-3 border-b border-white/10 bg-green-900 px-4 text-white md:border-slate-200 md:bg-white md:text-green-900">
+        <button class="inline-flex h-11 w-11 items-center justify-center rounded-lg hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white md:hidden" type="button" data-open-nav aria-controls="sidebar" aria-expanded="false" aria-label="Open menu">
           {{ icon("menu") }}
         </button>
-        <p class="truncate text-sm font-semibold text-navy-900">DNSC e-Clearance Hub</p>
+        <div class="min-w-0 flex-1 leading-tight">
+          <p class="truncate text-xs text-white/70 md:text-slate-500">Davao del Norte State College</p>
+          <p class="truncate text-sm font-semibold">DNSC e-Clearance Hub</p>
+        </div>
+        <div class="relative">
+          <button class="relative inline-flex h-11 w-11 items-center justify-center rounded-lg hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white md:text-green-900 md:hover:bg-green-50 md:focus-visible:ring-green-700" id="notify-button" type="button" aria-expanded="false" aria-controls="notify-panel" aria-label="Notifications" data-role="{{ current_user.role }}" data-clearance="{{ url_for('ui.student_clearance') }}" data-announcements="{{ url_for('ui.student_announcements') }}" data-documents="{{ url_for('ui.student_documents') }}" data-help="{{ url_for('ui.student_help') }}" data-students="{{ url_for('ui.staff_students') }}">
+            {{ icon("bell") }}
+            <span id="notify-dot" class="absolute top-2 right-2 hidden h-2 w-2 rounded-full bg-red-500"></span>
+          </button>
+          <div class="absolute right-0 z-30 mt-2 hidden w-80 max-w-[calc(100vw-2rem)] rounded-xl border border-slate-200 bg-white p-2 text-green-900 shadow-lg" id="notify-panel" role="region" aria-label="Notifications">
+            <p class="px-2 py-1 text-sm font-semibold">Notifications</p>
+            <ul id="notify-list" class="max-h-80 overflow-y-auto">
+              <li class="px-2 py-3 text-sm text-slate-600">Loading notifications.</li>
+            </ul>
+          </div>
+        </div>
+        <span id="header-avatar" class="flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-sm font-semibold md:bg-green-100 md:text-green-800" aria-hidden="true">{{ initial }}</span>
       </header>
       <main id="main" class="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
         {% block content %}{% endblock %}
       </main>
     </div>
   </div>
+  <nav class="fixed inset-x-0 bottom-0 z-30 grid border-t border-slate-200 bg-white md:hidden" aria-label="Mobile" style="grid-template-columns: repeat(auto-fit, minmax(0, 1fr));">
+    {% block mobile_navigation %}{% endblock %}
+  </nav>
   <script src="{{ url_for('static', filename='js/nav.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/notifications.js') }}"></script>
   {% block scripts %}{% endblock %}
 {% endblock %}

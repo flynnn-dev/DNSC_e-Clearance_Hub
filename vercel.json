@@ -1,5 +1,14 @@
 {
+  "services": {
+    "web": {
+      "root": ".",
+      "entrypoint": "api.index:app"
+    }
+  },
   "rewrites": [
-    { "source": "/(.*)", "destination": "/api/index" }
+    {
+      "source": "/(.*)",
+      "destination": { "service": "web" }
+    }
   ]
 }
